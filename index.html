@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#21184f">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Team Eunomie">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="manifest" href="manifest.webmanifest">
+<title>Team Eunomie — Borne événementielle</title>
+<style>
+[hidden]{display:none!important}
+:root{font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:#172033;background:#f7f5ff}
+*{box-sizing:border-box}body{margin:0;background:linear-gradient(135deg,#fff,#f7f5ff 55%,#f1f7ff);min-height:100vh}
+button{font:inherit;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.app{max-width:1120px;margin:auto;padding:24px;padding-top:max(24px,env(safe-area-inset-top));padding-bottom:max(24px,env(safe-area-inset-bottom))}
+header{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:22px}
+.brand{display:flex;align-items:center;gap:14px}.logo{width:58px;height:58px;border-radius:18px;background:#21184f;color:white;display:grid;place-items:center;font-weight:900;font-size:21px}
+h1{margin:0;font-size:clamp(28px,4vw,42px);letter-spacing:-1.5px}.tag{color:#667085;margin-top:3px}
+.home{border:0;background:white;padding:12px 16px;border-radius:12px;font-weight:800;box-shadow:0 2px 10px #0001}
+.menu{display:grid;grid-template-columns:1fr 1fr;gap:17px}
+.card{min-height:175px;border:0;border-radius:25px;padding:25px;color:#fff;text-align:left;box-shadow:0 8px 22px #0002}
+.card h2{font-size:26px;margin:34px 0 5px}.card p{margin:0;opacity:.92}
+.purple{background:#6042a5}.red{background:#b83e4d}.orange{background:#c97827}.blue{background:#27709f}
+.bottom{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:17px}.bottom button{min-height:78px;border:2px solid #e2e5eb;background:#fff;border-radius:18px;padding:17px;text-align:left;font-weight:850}
+.bottom small{display:block;color:#667085;font-weight:500;margin-top:4px}
+.panel{background:#fff;border:1px solid #e2e5eb;border-radius:25px;padding:27px;box-shadow:0 7px 25px #0001}
+.back{border:0;background:#eef0f4;border-radius:10px;padding:11px 16px;font-weight:750;margin-bottom:18px}
+.panel h2{font-size:30px;margin:0 0 8px}.intro{color:#667085;line-height:1.55}
+.items{display:grid;grid-template-columns:1fr 1fr;gap:13px;margin-top:20px}.item{border:1px solid #e3e6eb;border-radius:16px;padding:18px}.item b{font-size:18px}.item p{color:#667085;line-height:1.45}
+.quizbox{margin-top:21px;border:2px solid #6042a5;border-radius:17px;padding:17px}.quizbox button{width:100%;margin-top:9px;padding:15px;border:2px solid #e2e5eb;background:#f7f8fa;border-radius:12px;text-align:left}
+.answer{display:block;width:100%;margin:9px 0;padding:16px;border:2px solid #e2e5eb;background:#f7f8fa;border-radius:13px;text-align:left}.answer.correct{background:#dcfce7;border-color:#22a35a}.answer.wrong{background:#fee2e2;border-color:#dc2626}
+.next{background:#21184f!important;color:#fff!important;font-weight:850;text-align:center!important}
+.cta{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:20px}.cta button{min-height:120px;border:0;border-radius:20px;color:#fff;padding:20px;text-align:left}.join{background:#287a55}.donate{background:#bd8520}
+.qnum{color:#6042a5;font-weight:850;font-size:13px}.question{font-size:25px;font-weight:850;line-height:1.3;margin:10px 0 18px}
+.notice{padding:14px;border-radius:13px;background:#f3f4f6;color:#4b5563;line-height:1.45;margin-top:14px}
+@media(max-width:700px){.app{padding:14px}.menu,.bottom,.items,.cta{grid-template-columns:1fr}.card{min-height:140px}.card h2{margin-top:22px}.logo{width:48px;height:48px;border-radius:15px}.home{padding:10px 12px}h1{font-size:29px}}
+</style>
+</head>
+<body>
+<div class="app" id="app"></div>
+<script>
+const missions=[
+["Enquêteur","Rédiger les dossiers et réaliser des recherches de manière légale et publique."],
+["Intercepteur","Communiquer avec les pédocriminels, en ligne, dans le cadre défini par l’association. L’incitation est interdite."],
+["Prévention","Sensibiliser tous les publics aux risques liés aux usages en ligne."],
+["Transmission","Contribuer au traitement des dossiers dans le cadre prévu. La transmission des dossiers est assurée par Shiva."]
+];
+const organisation=[
+["Formation","Formation, période dite de training, validation puis intégration."],
+["Pôle enquête","Relecture, informations administratives, formation, validation, rangement des dossiers et supervision."],
+["Pôle interception","Organisation du pôle autour de la formation, du suivi, de la validation et de la coordination."],
+["Administrateurs","Assurent la gestion et les différents aspects nécessaires au fonctionnement de l’association."]
+];
+const rules=[
+["Franchise","Être franc dans son travail et dans ses échanges."],
+["Motivation","Être investi et motivé dans son engagement bénévole."],
+["Écoute","Faire preuve d’écoute et savoir demander conseil."],
+["Confidentialité","Rien ne sort de Team Eunomie."],
+["Captures d’écran","Toujours réaliser les captures d’écran nécessaires au travail."],
+["En cas de doute","Toujours contacter l’équipe."],
+["Recherches","Les recherches doivent rester légales et publiques."],
+["Sanction","Le non-respect du cadre peut entraîner l’expulsion de l’association."]
+];
+const who=[
+["Notre mission","Team Eunomie est une association qui lutte contre la pédocriminalité en ligne."],
+["Prévention","Nous intervenons dans les établissements scolaires, auprès des parents en groupe et auprès de différents publics."],
+["Collectif","Team Eunomie fait partie du Collectif pour l’enfance, qui réunit plusieurs dizaines d’associations."],
+["Création","L’association a été créée par Shiva / Florian à la suite d’un appel citoyen et est rapidement devenue autonome."],
+["Nos valeurs","Motivation, sérieux et franchise."],
+["Notre évolution","L’évolution repose notamment sur le développement des bénévoles et la structuration de l’association."],
+["Notre message","Traquer les pédocriminels est important, mais le faire avec sérieux, être investi et faire de la prévention autour de soi permet aussi de réduire les risques."]
+];
+const quizzes=[
+{title:"Quiz 1 — Découvrir Team Eunomie",qs:[
+["Quel est l’un des objectifs de Team Eunomie?",["Lutter contre la pédocriminalité en ligne","Créer des réseaux sociaux","Organiser des compétitions","Former des influenceurs"],0],
+["Pourquoi Team Eunomie fait-elle aussi de la prévention?",["Pour sensibiliser aux risques en ligne","Pour remplacer les enquêtes","Pour supprimer Internet","Pour recruter uniquement des enquêteurs"],0],
+["Quelles sont les trois valeurs mises en avant par Team Eunomie?",["Motivation, sérieux et franchise","Rapidité, humour et compétition","Discrétion, publicité et rentabilité","Créativité, commerce et célébrité"],0],
+["Depuis quand Team Eunomie est-elle active?",["Depuis décembre 2019","Depuis 2015","Depuis 2022","Depuis 2025"],0]
+]},
+{title:"Quiz 2 — Pour bien débuter",qs:[
+["Que doit faire un membre s’il a un doute sur une procédure?",["Contacter l’équipe","Improviser","Publier la situation","Ignorer le doute"],0],
+["Que signifie « rien ne sort de Team Eunomie »?",["Les informations internes restent confidentielles","Tout doit être publié","Les dossiers doivent être supprimés","Les membres ne peuvent pas communiquer"],0],
+["Quel est le parcours général d’un nouveau bénévole?",["Formation, training, validation puis intégration","Intégration immédiate sans formation","Validation puis candidature","Formation puis départ de l’association"],0],
+["Un bénévole peut-il être à la fois enquêteur et intercepteur?",["Non, il choisit l’un ou l’autre rôle","Oui, automatiquement","Oui, sans formation","Seulement pendant le training"],0]
+]}
+];
+
+const app=document.getElementById("app");
+const STANDALONE=window.navigator.standalone===true||matchMedia("(display-mode: fullscreen), (display-mode: standalone)").matches;
+const FS_OK=!STANDALONE&&!!(document.fullscreenEnabled||document.webkitFullscreenEnabled);
+function goHome(){home()} function header(){return `<header><div class="brand"><div class="logo">TE</div><div><h1>TEAM EUNOMIE</h1><div class="tag">Comprendre · Apprendre · Agir</div></div></div><div style="display:flex;gap:10px"><button class="home" id="fs" title="Plein écran" ${FS_OK?"":"hidden"}>⛶ Plein écran</button><button class="home" id="home">⌂ Accueil</button></div></header>`}
+function home(){app.innerHTML=header()+`
+<div class="menu">
+<button class="card purple" data-page="who"><div>◉</div><h2>Qui sommes-nous ?</h2><p>Notre histoire, nos valeurs et notre engagement.</p></button>
+<button class="card red" data-page="missions"><div>◆</div><h2>Nos missions</h2><p>Enquêteur, intercepteur, prévention et transmission.</p></button>
+<button class="card orange" data-page="rules"><div>✓</div><h2>Nos règles</h2><p>Les principes essentiels à connaître.</p></button>
+<button class="card blue" data-page="org"><div>◎</div><h2>Notre organisation</h2><p>Formation, pôles et administration.</p></button>
+</div>
+<div class="bottom">
+<button data-page="join">🤝 Nous rejoindre<small>Découvrir comment devenir bénévole.</small></button>
+<button data-page="donate">💛 Faire un don<small>Soutenir Team Eunomie.</small></button>
+</div>`;
+document.querySelectorAll("[data-page]").forEach(b=>b.onclick=()=>page(b.dataset.page));
+}
+function page(p){
+if(p==="join")return join();
+if(p==="donate")return donate();
+let title,intro,items;
+if(p==="who"){title="Qui sommes-nous ?";intro="Une association engagée contre la pédocriminalité en ligne, avec une forte dimension de prévention.";items=who}
+else if(p==="missions"){title="Nos missions";intro="Les quatre grandes missions présentées aux visiteurs.";items=missions}
+else if(p==="org"){title="Notre organisation";intro="Une organisation structurée autour de la formation, des pôles et de l’administration.";items=organisation}
+else{title="Nos règles";intro="Les principes essentiels à connaître.";items=rules}
+app.innerHTML=header()+`<div class="panel"><button class="back" id="back">← Accueil</button><h2>${title}</h2><p class="intro">${intro}</p><div class="items">${items.map(x=>`<div class="item"><b>${x[0]}</b><p>${x[1]}</p></div>`).join("")}</div>
+${p==="who"||p==="missions"||p==="org"?`<div class="quizbox"><b>📝 Tester ses connaissances</b><button id="q1">Quiz 1 — Découvrir Team Eunomie<br><small>4 questions · niveau modéré</small></button><button id="q2">Quiz 2 — Pour bien débuter<br><small>4 questions · niveau modéré</small></button></div>`:""}</div>`;
+document.getElementById("back").onclick=goHome;
+if(document.getElementById("q1"))document.getElementById("q1").onclick=()=>quiz(0);
+if(document.getElementById("q2"))document.getElementById("q2").onclick=()=>quiz(1);
+}
+function quiz(n){
+let z=quizzes[n],i=0;
+function draw(){
+let q=z.qs[i];
+app.innerHTML=header()+`<div class="panel"><button class="back" id="back">← Accueil</button><div class="qnum">${z.title} · QUESTION ${i+1} / 4</div><div class="question">${q[0]}</div>${q[1].map((a,k)=>`<button class="answer" data-k="${k}">${String.fromCharCode(65+k)} · ${a}</button>`).join("")}<div id="res"></div></div>`;
+document.getElementById("back").onclick=goHome;
+document.querySelectorAll(".answer").forEach(b=>b.onclick=()=>{
+document.querySelectorAll(".answer").forEach(x=>x.disabled=true);
+let k=+b.dataset.k;
+b.classList.add(k===q[2]?"correct":"wrong");
+if(k!==q[2])document.querySelectorAll(".answer")[q[2]].classList.add("correct");
+document.getElementById("res").innerHTML=`<div class="notice">${k===q[2]?"Bonne réponse !":"La bonne réponse est affichée en vert."}</div><button class="answer next" id="next">${i===3?"Terminer":"Question suivante"} →</button>`;
+document.getElementById("next").onclick=()=>{if(i<3){i++;draw()}else finish()}
+});
+}
+draw();
+}
+function finish(){
+app.innerHTML=header()+`<div class="panel" style="text-align:center"><h2>Merci d’avoir découvert Team Eunomie !</h2><p class="intro">Tu peux maintenant découvrir comment nous rejoindre ou soutenir l’association.</p><div class="cta"><button class="join" id="j"><b>🤝 NOUS REJOINDRE</b><br><small>Découvrir le parcours bénévole.</small></button><button class="donate" id="d"><b>💛 FAIRE UN DON</b><br><small>Soutenir l’association.</small></button></div><button class="back" id="b" style="margin-top:18px">← Retour à l’accueil</button></div>`;
+document.getElementById("b").onclick=goHome;document.getElementById("j").onclick=join;document.getElementById("d").onclick=donate;
+}
+function join(){
+app.innerHTML=header()+`<div class="panel"><button class="back" id="b">← Accueil</button><h2>🤝 Nous rejoindre</h2><p class="intro">Team Eunomie est ouverte aux personnes motivées qui souhaitent s’investir.</p><div class="items">
+<div class="item"><b>18 ans minimum</b><p>Il faut être majeur pour rejoindre l’association.</p></div>
+<div class="item"><b>Aucune expérience obligatoire</b><p>La formation permet d’apprendre les méthodes nécessaires.</p></div>
+<div class="item"><b>Documents</b><p>CNI transmise à Florian, adhésion à l’association et attestation d’honorabilité.</p></div>
+<div class="item"><b>Candidature</b><p>Envoi d’un mail puis contact sur Discord.</p><a href="https://discord.gg/ZNt6jWW3m" target="_blank" rel="noopener" style="display:inline-block;margin-top:8px;background:#5865F2;color:white;text-decoration:none;padding:10px 14px;border-radius:10px;font-weight:800">Rejoindre le serveur Discord</a></div>
+<div class="item"><b>Parcours</b><p>Formation → training → validation → intégration.</p></div>
+<div class="item"><b>Choix du rôle</b><p>Le bénévole choisit entre le rôle d’enquêteur et celui d’intercepteur.</p></div>
+</div><div style="text-align:center;margin-top:22px"><a href="https://discord.gg/ZNt6jWW3m" target="_blank" rel="noopener" style="display:inline-block;background:#5865F2;color:white;text-decoration:none;padding:15px 22px;border-radius:13px;font-weight:850">💬 Rejoindre Team Eunomie sur Discord</a></div></div>`;
+document.getElementById("b").onclick=goHome;
+}
+function donate(){
+app.innerHTML=header()+`<div class="panel" style="text-align:center"><button class="back" id="b">← Accueil</button><h2>💛 Faire un don</h2><p class="intro">Soutenir Team Eunomie, c’est contribuer à la continuité de ses actions.</p><div class="items">
+<div class="item"><b>Envoyer des dossiers</b><p>Contribuer à la poursuite du travail de l’association.</p></div>
+<div class="item"><b>Continuer nos actions</b><p>Permettre à Team Eunomie de poursuivre ses missions.</p></div>
+<div class="item"><b>Participer aux événements</b><p>Être présent lors des actions et événements de l’association.</p></div>
+<div class="item"><b>Soutenir Team Eunomie</b><p>Les dons permettent de soutenir concrètement l’association.</p></div>
+</div><div class="notice">Le don se fait via HelloAsso.</div></div>`;
+document.getElementById("b").onclick=goHome;
+}
+document.addEventListener("click",e=>{
+if(e.target.closest("#home")){goHome();return}
+if(!e.target.closest("#fs"))return;
+const el=document.documentElement;
+const req=el.requestFullscreen||el.webkitRequestFullscreen;
+const exit=document.exitFullscreen||document.webkitExitFullscreen;
+const isFs=document.fullscreenElement||document.webkitFullscreenElement;
+try{if(isFs){exit&&exit.call(document)}else if(req){req.call(el)}}catch(err){}
+});
+home();
+</script>
+</body>
+</html>
